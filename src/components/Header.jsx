@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ShoppingBag, Search, User } from 'lucide-react';
+import { useCart } from '../context/CartContext';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { getCartCount } = useCart();
 
   const navigation = [
     { name: 'Home', href: '/' },
@@ -51,12 +53,12 @@ export const Header = () => {
             <button className="text-gray-700 hover:text-[#c76d4e]">
               <User size={20} />
             </button>
-            <button className="text-gray-700 hover:text-[#c76d4e] relative">
+            <Link to="/cart" className="text-gray-700 hover:text-[#c76d4e] relative">
               <ShoppingBag size={20} />
               <span className="absolute -top-2 -right-2 bg-[#c76d4e] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                0
+                {getCartCount()}
               </span>
-            </button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -96,12 +98,16 @@ export const Header = () => {
               <button className="text-gray-700 hover:text-[#c76d4e]">
                 <User size={20} />
               </button>
-              <button className="text-gray-700 hover:text-[#c76d4e] relative">
+              <Link 
+                to="/cart" 
+                className="text-gray-700 hover:text-[#c76d4e] relative"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 <ShoppingBag size={20} />
                 <span className="absolute -top-2 -right-2 bg-[#c76d4e] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  0
+                  {getCartCount()}
                 </span>
-              </button>
+              </Link>
             </div>
           </div>
         </div>
